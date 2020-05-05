@@ -1,5 +1,3 @@
-enum maxLength = 1000;
-
 void main(string[] args)
 {
     import std.stdio : writeln;
@@ -64,8 +62,6 @@ unittest
 }
 
 /// Generates a an associative array containing the trigrams of text.
-///
-///
 string[][string] generateTrigrams(string text)
 {
     import std.array : split, array;
@@ -107,13 +103,10 @@ unittest
     assert(trigrams == expectedTrigrams);
 }
 
-unittest
-{
-    string[][string] trigrams = generateTrigrams("I wish I may I wish I might");
+/// The maximum length of the output of `generateNewText`.
+enum maxLength = 1000;
 
-    assert(generateNewText(trigrams).length <= maxLength);
-}
-
+/// Generates new text based on trigrams, not exceeding maxLength.
 string generateNewText(string[][string] trigrams, uint maxLength = maxLength)
 {
     import std.random : choice;
@@ -135,4 +128,12 @@ string generateNewText(string[][string] trigrams, uint maxLength = maxLength)
     }
 
     return newText;
+}
+
+///
+unittest
+{
+    string[][string] trigrams = generateTrigrams("I wish I may I wish I might");
+
+    assert(generateNewText(trigrams).length <= maxLength);
 }
