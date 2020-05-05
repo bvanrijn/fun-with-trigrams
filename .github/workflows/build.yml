@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install DMD and Dfmt
+        run: brew install dmd dfmt
+      - name: Run Dfmt
+        run: dfmt fun_with_trigrams.d | diff -u fun_with_trigrams.d -
+      - name: Generate documentation
+        run: dmd -D -unittest -cov fun_with_trigrams.d
+      - name: Run tests and get coverage
+        run: ./fun_with_trigrams
+      - name: Move documentation and coverage to directory
+        run: mkdir -p out && mv fun_with_trigrams.html fun_with_trigrams.lst out/
+      - uses: actions/upload-artifact@v2
+        with:
+          name: fun_with_trigrams-artifacts
+          path: out
