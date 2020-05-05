@@ -1,7 +1,7 @@
 # fun-with-trigrams
 
 **fun-with-trigrams** is a program that lets you, well, have fun with trigrams.
-(I know, right?).
+(I know, right?)
 
 It's my solution to [Kata14: Tom Swift Under the Milkwood][0],
 written in about a hundred lines of D. The algorithm could be improved, but it
