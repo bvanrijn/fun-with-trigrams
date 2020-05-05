@@ -50,6 +50,19 @@ void repl()
     }
 }
 
+/// Returns true if associative array aa contains key key.
+bool containsKey(V, K)(V[K] aa, K key)
+{
+    return (key in aa) !is null;
+}
+
+///
+unittest
+{
+    assert(["foo": 123].containsKey("foo"));
+    assert(["foo": null].containsKey("foo"));
+}
+
 unittest
 {
     import std.algorithm : canFind;
@@ -67,7 +80,7 @@ unittest
     {
         auto key = kv.key;
 
-        assert((key in expectedTrigrams) !is null);
+        assert(expectedTrigrams.containsKey(key));
 
         foreach (value; kv.value)
         {
@@ -94,7 +107,7 @@ string[][string] generateTrigrams(string text)
 
         auto key = "%s %s".format(word, nextWord);
 
-        if ((key in trigrams) is null)
+        if (!trigrams.containsKey(key))
         {
             trigrams[key] = [];
         }
@@ -124,7 +137,7 @@ string generateNewText(string[][string] trigrams, uint maxLength = maxLength)
     {
         auto lastTwoWords = newText.split!isWhite()[$ - 2 .. $].join(" ");
 
-        if ((lastTwoWords in trigrams) is null)
+        if (!trigrams.containsKey(lastTwoWords))
         {
             break;
         }

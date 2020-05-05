@@ -10,7 +10,7 @@ seems to work pretty well.
 Some things that I want to work on next:
 
 - Refactoring the code into smaller, testable functions
-- Improving test coverage (which is currently 59%)
+- Improving coverage (currently: 61%)
 - Writing documentation
 - Reducing memory usage
 - Making it faster
