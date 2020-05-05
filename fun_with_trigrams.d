@@ -48,7 +48,7 @@ void repl()
     }
 }
 
-/// Returns true if associative array aa contains key key.
+/// Returns true if associative array aa contains key.
 bool containsKey(V, K)(V[K] aa, K key)
 {
     return (key in aa) !is null;
@@ -61,15 +61,28 @@ unittest
     assert(["foo": null].containsKey("foo"));
 }
 
-/// Generates a an associative array containing the trigrams of text.
+/// Splits s on whitespace.
+string[] splitOnWhitespace(string s)
+{
+    import std.algorithm : filter;
+    import std.array : array, split;
+    import std.uni : isWhite;
+
+    return s.split!isWhite().filter!(word => word != "").array();
+}
+
+///
+unittest
+{
+    assert(splitOnWhitespace("Hello, World!") == ["Hello,", "World!"]);
+}
+
+/// Generates an associative array containing the trigrams of text.
 string[][string] generateTrigrams(string text)
 {
-    import std.array : split, array;
     import std.format : format;
-    import std.uni : isWhite;
-    import std.algorithm : filter;
 
-    auto words = text.split!isWhite().filter!(word => word != "").array();
+    auto words = text.splitOnWhitespace();
     string[][string] trigrams;
 
     for (auto i = 0; i < words.length - 2; i++)
@@ -110,14 +123,13 @@ enum maxLength = 1000;
 string generateNewText(string[][string] trigrams, uint maxLength = maxLength)
 {
     import std.random : choice;
-    import std.array : split, join;
-    import std.uni : isWhite;
+    import std.array : join;
 
     auto newText = choice(trigrams.keys);
 
     while (newText.length < maxLength)
     {
-        auto lastTwoWords = newText.split!isWhite()[$ - 2 .. $].join(" ");
+        auto lastTwoWords = newText.splitOnWhitespace()[$ - 2 .. $].join(" ");
 
         if (!trigrams.containsKey(lastTwoWords))
         {
