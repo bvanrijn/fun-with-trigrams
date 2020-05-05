@@ -63,32 +63,9 @@ unittest
     assert(["foo": null].containsKey("foo"));
 }
 
-unittest
-{
-    import std.algorithm : canFind;
-
-    string text = "I wish I may I wish I might";
-    string[][string] trigrams = generateTrigrams(text);
-    string[][string] expectedTrigrams = [
-        "I wish" : ["I", "I"], "wish I" : ["may", "might"], "may I" : ["wish"],
-        "I may" : ["I"],
-    ];
-
-    assert(trigrams.keys.length == 4);
-
-    foreach (kv; trigrams.byKeyValue)
-    {
-        auto key = kv.key;
-
-        assert(expectedTrigrams.containsKey(key));
-
-        foreach (value; kv.value)
-        {
-            assert(expectedTrigrams[key].canFind(value));
-        }
-    }
-}
-
+/// Generates a an associative array containing the trigrams of text.
+///
+///
 string[][string] generateTrigrams(string text)
 {
     import std.array : split, array;
@@ -116,6 +93,18 @@ string[][string] generateTrigrams(string text)
     }
 
     return trigrams;
+}
+
+///
+unittest
+{
+    string[][string] trigrams = generateTrigrams("I wish I may I wish I might");
+    string[][string] expectedTrigrams = [
+        "I wish" : ["I", "I"], "wish I" : ["may", "might"], "may I" : ["wish"],
+        "I may" : ["I"],
+    ];
+
+    assert(trigrams == expectedTrigrams);
 }
 
 unittest
